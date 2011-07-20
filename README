@@ -1,2 +1,45 @@
 Nyanduino is a simple Arduino sketch originally designed to play the Nyan Cat
 song from a MIDI file.
+
+How it works:
+
+Well - MIDI proved a little too tricky to implement on Arduino at this point...
+ 1) I need to grok the .mid file format (seems simple enough in hindsight now)
+ 2) Arduino's based on the ATmega 328 have only 1k for SRAM; I would need to put
+    some sort of sliding window in and load the .mid file in chunks.
+    ATmega168 MCU has 512bytes of SRAM. Given there's about 500 notes; this is
+    unlikely to run on the '168.
+    ATmega8 - don't ask me; try it, but I wouldn't be surprised if it runs out of
+    memory very fast.
+ 3) Where will the midi track to be played be located? (only 1 track at a time)
+ 
+   Perhaps a lightweight Processing app to send serial commands to the Arduino
+   might be easier next time?
+
+The MIDI file has been converted into a new binary format - an array of
+struct's which form the notes and their duration (a format I'm not totally proud of).
+
+
+{ note_num, length }
+
+Each note value is assigned single byte indicating what the MIDI note number is
+(0-127). Each note is given a byte representing the number of millis that the note
+is "on" for (0-255).
+
+It mimics the .mid format; and in some ways is more compact, and in other ways is
+more bloated.
+
+The conversion process:
+
+1) Find a .mid you like - it's easiest with only 1 track.
+2) Convert the file to a bunch of note-on note-off events with the note number and delta ticks
+(http://midi.mathewvp.com/midiEditor.php is good at this)
+3) Mangle the file using sed, grep, python, (yes... I admit, I used Excel)
+4) Run through uniq to get a list of the unique notes and update the switch()
+   statement.
+   Also update the list of constants at the top of the music header file.
+   Add the midi note number to each constant. A440 = #57 (decimal).
+5) Mangle the file so that it forms the array of sheetNote struct's in the nyancat.h
+   file.
+
+6) Try and run it; fix problems. I probably forgot steps.

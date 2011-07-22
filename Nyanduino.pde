@@ -51,8 +51,8 @@ int playNote(sheetNote theNote) {
   // implementation based on 
   // http://itp.nyu.edu/physcomp/Labs/ToneOutput
   int note         = theNote.note;
-  int noteDuration = theNote.duration * 0.6;
-  int notePause    = noteDuration * 1;
+  int noteDuration = theNote.duration * 0.75;
+  int notePause    = noteDuration * 0.75;
   int notePin      = getNotePin(note);
   int hzVal        = int(getHzFromMidiNote(note));
 

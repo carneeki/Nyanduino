@@ -27,23 +27,23 @@ String buf;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Starting Nyanduino v0.1");
+//  Serial.println("Starting Nyanduino v0.1");
   bPlayed = false;
   buf = String();
 }
 
 void loop() {
   if(bPlayed == false) {
-    bPlayed = true; // play once only
+    //bPlayed = true; // play once only
     for(int i = 0; i < (sizeof(tune)/sizeof(sheetNote)); i++) {    
       playNote(tune[i]);
     } // end for()
-    Serial.println("");
-    Serial.println("OK, I'm done.");
-    buf = "Nyanning took: ";
-    buf.concat((millis()));
-    buf.concat(" Millies");
-    Serial.println(buf);
+//    Serial.println("");
+//    Serial.println("OK, I'm done.");
+//    buf = "Nyanning took: ";
+//    buf.concat((millis()));
+//    buf.concat(" Millies");
+//    Serial.println(buf);
   } // end if bPlayed
 } // end loop()
 
@@ -56,13 +56,17 @@ int playNote(sheetNote theNote) {
   int notePin      = getNotePin(note);
   int hzVal        = int(getHzFromMidiNote(note));
 
-  buf = "Playing: ";
+//  buf = "Playing: ";
+    buf = "";
+    
+//  buf.concat(note);
+//  buf.concat(" [ ");
   buf.concat(note);
-  buf.concat(" [ ");
-  buf.concat(notePin);
-  buf.concat(" ] for ");
+//  buf.concat(" ] for ");
+  buf.concat(",");
+  
   buf.concat(noteDuration);
-  buf.concat(" ms.");
+//  buf.concat(" ms.");
   Serial.println(buf);
   
   if(note == REST) {
